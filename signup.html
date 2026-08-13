@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+<div class="auth-containers">
+    <div class="form-header">
+        <h2>Create Account</h2><br><br>
+        <p>Sign up to get started</p><br>
+    </div>
+
+    <form id="signupForm">
+        <div class="field">
+            <label for="name">Full Name</label>
+            <input id="name" type="text" placeholder="John Doe">
+            <p id="nameError" class="error"></p><br>
+        </div>
+        <div class="field">
+            <label for="email">Email Address</label>
+            <input id="email" type="text" placeholder="name@example.com">
+            <p id="emailError" class="error"></p><br>
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Minimum 8 characters">
+            <p id="passwordError" class="error"></p><br>
+        </div>
+        <div class="field">
+            <label for="confirm">Confirm Password</label>
+            <input id="confirm" type="password" placeholder="Repeat password">
+            <p id="confirmError" class="error"></p><br>
+        </div>
+        <button type="submit" class="submit-btn">Sign Up</button>
+    </form>
+
+    <p id="result" class="status-message"></p><br>
+
+    <div class="form-footer">
+        Already have an account? <a href="login.html">Log In</a>
+    </div>
+</div>
+
+<script>
+const signupForm = document.getElementById("signupForm");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const passInput = document.getElementById("password");
+const confirmInput = document.getElementById("confirm");
+
+const nameError = document.getElementById("nameError");
+const emailError = document.getElementById("emailError");
+const passError = document.getElementById("passwordError");
+const confirmError = document.getElementById("confirmError");
+const result = document.getElementById("result");
+
+function showError(el, message) { el.innerText = message; }
+function clearError(el) { el.innerText = ""; }
+
+function validateName() {
+    let value = nameInput.value.trim();
+    if (value.length < 2) {
+        showError(nameError, "Name must be at least 2 characters.");
+        return false;
+    }
+    clearError(nameError);
+    return true;
+}
+
+function validateEmail() {
+    let value = emailInput.value.trim();
+    if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))) {
+        showError(emailError, "Enter a valid email address.");
+        return false;
+    }
+    clearError(emailError);
+    return true;
+}
+
+function validatePassword() {
+    let value = passInput.value;
+    if (value.length < 8) {
+        showError(passError, "Password must be at least 8 characters.");
+        return false;
+    }
+    clearError(passError);
+    return true;
+}
+
+function validateConfirm() {
+    let passValue = passInput.value;
+    let confirmValue = confirmInput.value;
+    if (confirmValue !== passValue || confirmValue === "") {
+        showError(confirmError, "Passwords do not match.");
+        return false;
+    }
+    clearError(confirmError);
+    return true;
+}
+
+signupForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    result.innerText = "";
+
+    let okName = validateName();
+    let okEmail = validateEmail();
+    let okPass = validatePassword();
+    let okConfirm = validateConfirm();
+
+    if (okName && okEmail && okPass && okConfirm) {
+        result.innerText = "Sign Up Successful!";
+        result.className = "status-message ok";
+    } else {
+        result.innerText = "Please fix the errors above.";
+        result.className = "status-message error-text";
+    }
+});
+</script>
+
+</body>
+</html>

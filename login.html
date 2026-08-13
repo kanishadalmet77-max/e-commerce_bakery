@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-containers">
+    <div class="form-header">
+        <h2>Welcome Back</h2><br><br>
+        <p>Log in to access your account</p><br>
+    </div>
+
+    <form id="loginForm">
+        <div class="field">
+            <label for="loginEmail">Email Address</label>
+            <input id="loginEmail" type="text" placeholder="name@example.com">
+            <p id="loginEmailError" class="error"></p><br>
+        </div>
+        <div class="field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" placeholder="••••••••">
+            <p id="loginPasswordError" class="error"></p><br>
+        </div>
+        <button type="submit" class="submit-btn">Log In</button>
+    </form>
+
+    <p id="result" class="status-message"></p><br>
+
+    <div class="form-footer">
+        Don't have an account? <a href="signup.html">Sign Up</a>
+    </div>
+</div>
+
+<script>
+const loginForm = document.getElementById("loginForm");
+const loginEmailInput = document.getElementById("loginEmail");
+const loginPassInput = document.getElementById("loginPassword");
+
+const loginEmailError = document.getElementById("loginEmailError");
+const loginPassError = document.getElementById("loginPasswordError");
+const result = document.getElementById("result");
+
+function showError(el, message) { el.innerText = message; }
+function clearError(el) { el.innerText = ""; }
+
+function validateEmail() {
+    let value = loginEmailInput.value.trim();
+    if (!(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))) {
+        showError(loginEmailError, "Enter a valid email address.");
+        return false;
+    }
+    clearError(loginEmailError);
+    return true;
+}
+
+function validatePassword() {
+    let value = loginPassInput.value;
+    if (value.length === 0) {
+        showError(loginPassError, "Please enter your password.");
+        return false;
+    }
+    clearError(loginPassError);
+    return true;
+}
+
+loginForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    result.innerText = "";
+
+    let okEmail = validateEmail();
+    let okPass = validatePassword();
+
+    if (okEmail && okPass) {
+        result.innerText = "Log In Successful!";
+        result.className = "status-message ok";
+    } else {
+        result.innerText = "Please fix the errors above.";
+        result.className = "status-message error-text";
+    }
+});
+</script>
+
+</body>
+</html>
+
+
