@@ -8,6 +8,7 @@
     
 </head>
 <body>
+    
 
 <div class="auth-containers">
     <div class="form-header">
@@ -92,7 +93,8 @@ function validatePassword() {
     return true;
 }
 
-function validateConfirm() {
+function 
+validateConfirm() {
     let passValue = passInput.value;
     let confirmValue = confirmInput.value;
     if (confirmValue !== passValue || confirmValue === "") {
@@ -101,6 +103,16 @@ function validateConfirm() {
     }
     clearError(confirmError);
     return true;
+}
+
+// ---- Real account creation logic (this was missing before) ----
+function getUsers() {
+    const stored = localStorage.getItem("users");
+    return stored ? JSON.parse(stored) : [];
+}
+
+function saveUsers(users) {
+    localStorage.setItem("users", JSON.stringify(users));
 }
 
 signupForm.addEventListener("submit", function (event) {
@@ -113,8 +125,30 @@ signupForm.addEventListener("submit", function (event) {
     let okConfirm = validateConfirm();
 
     if (okName && okEmail && okPass && okConfirm) {
-        result.innerText = "Sign Up Successful!";
+        const fullName = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passInput.value;
+
+        const users = getUsers();
+        const exists = users.some(function (u) { return u.email === email; });
+
+        if (exists) {
+            result.innerText = "An account with that email already exists. Try logging in instead.";
+            result.className = "status-message error-text";
+            return;
+        }
+
+        // NOTE: password is stored in plain text here — fine for a
+        // localStorage-only college demo, never do this with a real database.
+        users.push({ fullName: fullName, email: email, password: password });
+        saveUsers(users);
+
+        result.innerText = "Sign Up Successful! Redirecting to login...";
         result.className = "status-message ok";
+
+        setTimeout(function () {
+            window.location.href = "login.html";
+        }, 800);
     } else {
         result.innerText = "Please fix the errors above.";
         result.className = "status-message error-text";

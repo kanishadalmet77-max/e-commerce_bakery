@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
 
 <div class="auth-containers">
     <div class="form-header">
@@ -67,6 +68,13 @@ function validatePassword() {
     return true;
 }
 
+// ---- Real authentication logic (this was missing before) ----
+// Reads the accounts that signup.html created, stored under "users"
+function getUsers() {
+    const stored = localStorage.getItem("users");
+    return stored ? JSON.parse(stored) : [];
+}
+
 loginForm.addEventListener("submit", function (event) {
     event.preventDefault();
     result.innerText = "";
@@ -75,8 +83,32 @@ loginForm.addEventListener("submit", function (event) {
     let okPass = validatePassword();
 
     if (okEmail && okPass) {
-        result.innerText = "Log In Successful!";
-        result.className = "status-message ok";
+        const email = loginEmailInput.value.trim();
+        const password = loginPassInput.value;
+        const users = getUsers();
+
+        // Look for a signed-up account matching this exact email + password
+        const match = users.find(function (u) {
+            return u.email === email && u.password === password;
+        });
+
+        if (match) {
+            // Record who's currently logged in, so index.html and
+            // other pages can check this later if needed.
+            localStorage.setItem("currentUser", JSON.stringify({ fullName: match.fullName, email: match.email }));
+
+            result.innerText = "Log In Successful! Redirecting...";
+            result.className = "status-message ok";
+
+            // Short pause so the success message is actually visible
+            // before the page navigates away.
+            setTimeout(function () {
+                window.location.href = "index.html";
+            }, 800);
+        } else {
+            result.innerText = "Invalid email or password.";
+            result.className = "status-message error-text";
+        }
     } else {
         result.innerText = "Please fix the errors above.";
         result.className = "status-message error-text";
@@ -86,5 +118,3 @@ loginForm.addEventListener("submit", function (event) {
 
 </body>
 </html>
-
-

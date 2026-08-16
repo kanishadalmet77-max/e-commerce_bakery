@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Plus+Jakarta+Sans:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Plus Jakarta Sans',sans-serif; background:#fffdf9; color:#2c2520; padding:40px; }
+    .inner-showcase-box { background:#fcf8f2; border:1px solid #eae3d8; border-radius:12px; padding:30px; max-width:600px; margin:0 auto; }
+    .submit-btn { background:#7d8c76; color:white; border:none; padding:10px 20px; border-radius:12px; font-size:15px; font-weight:600; cursor:pointer; margin-top:20px; }
+  </style>
+</head>
+<body>
+  <div class="inner-showcase-box">
+    <h2>Order Summary</h2><br>
+    <div id="checkoutItems"></div>
+    <button class="submit-btn" onclick="simulatePayment()">Pay Now</button>
+  </div>
+
+  <script>
+    // Shared functions from products.js & cart.js
+    const PRODUCTS = [
+      { id: 1, name: "Fresh Cream Cake", price: 750 }, { id: 2, name: "Mawa", price: 250 },
+      { id: 3, name: "Confetti Sprinkle Cake", price: 800 }, { id: 4, name: "Pistachio Semolina Cake", price: 200 },
+      { id: 5, name: "Gulab Jamun", price: 250 }, { id: 6, name: "Cupcakes", price: 250 },
+      { id: 7, name: "Croissants", price: 150 }, { id: 8, name: "Muffins", price: 180 },
+      { id: 9, name: "Gulab Jamun", price: 250 }, { id: 10, name: "Cupcakes", price: 250 },
+      { id: 11, name: "Croissants", price: 150 }, { id: 12, name: "Muffins", price: 180 },
+      { id: 13, name: "Mawa", price: 250 }
+    ];
+    function getProductById(id) { return PRODUCTS.find(p => p.id === id); }
+    function getCart() { const stored = localStorage.getItem("cart"); return stored ? JSON.parse(stored) : []; }
+
+    // checkout.js logic
+    function renderCheckoutSummary() {
+      const container = document.getElementById("checkoutItems");
+      if (!container) return;
+      const cart = getCart();
+      if (cart.length === 0) {
+        container.innerHTML = "<p>No items to checkout.</p>";
+        return;
+      }
+      let total = 0;
+      let html = "<ul>";
+      cart.forEach(item => {
+        const product = getProductById(item.productId);
+        if (product) {
+          const itemTotal = product.price * item.quantity;
+          total += itemTotal;
+          html += `<li>${product.name} x ${item.quantity} = ₹${itemTotal}</li>`;
+        }
+      });
+      html += `</ul><br><strong>Grand Total: ₹${total}</strong>`;
+      container.innerHTML = html;
+    }
+
+    function simulatePayment() {
+      const cart = getCart();
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+      alert("Payment successful! Thank you for your order.");
+      localStorage.removeItem("cart");
+      window.location.href = "index.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCheckoutSummary);
+  </script>
+</body>
+</html>

@@ -5,6 +5,7 @@
 
   <title>Delicious Cakes</title>
 
+  
    <!--font-->
 
   <link rel="preconnect"
@@ -29,6 +30,7 @@
 
 </head>
 <body>
+    
 
    <!-- Top banner -->
 
@@ -69,8 +71,8 @@
      <div class="header-actions">
 
       <div class="icon-badge-container">
-
-        <i class="fa-solid fa-shopping-bag action-icon"></i>
+<a href="cart.html"> <i class="fa-solid fa-shopping-bag action-icon"></i> <span id="cartCount">0</span>
+</a>
 
       </div>
 
@@ -107,12 +109,6 @@
 
             </h2>
 
-            <a href="#"
-               class="btn-secondary">
-
-              BOOK A CONSULTATION
-
-            </a>
 
           </div>
 
@@ -136,13 +132,6 @@
               FRESH PICKS
 
             </h2>
-
-            <a href="#"
-               class="btn-secondary">
-
-              PICKUP TODAY
-
-            </a>
 
           </div>
 
@@ -183,9 +172,7 @@
 
                     <p class="price">₹750</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
+                     <button onclick="addToCart(1)">ADD +</button>
 
                 </div>
 
@@ -209,9 +196,7 @@
 
                     <p class="price">₹250</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
+                    <button onclick="addToCart(2)">ADD +</button>
 
                 </div>
 
@@ -235,10 +220,7 @@
 
                     <p class="price">₹800</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
-
+                   <button onclick="addToCart(3)">ADD +</button>
                 </div>
 
             </div>
@@ -261,10 +243,7 @@
 
                     <p class="price">₹200</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
-
+                   <button onclick="addToCart(4)">ADD +</button>
                 </div>
 
             </div>
@@ -287,10 +266,7 @@
 
                     <p class="price">₹250</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
-
+                    <button onclick="addToCart(5)">ADD +</button>
                 </div>
 
             </div>
@@ -313,10 +289,7 @@
 
                     <p class="price">₹250</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
-
+                   <button onclick="addToCart(6)">ADD +</button>
                 </div>
 
             </div>
@@ -339,10 +312,7 @@
 
                     <p class="price">₹150</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
-
+                    <button onclick="addToCart(7)">ADD +</button>
                 </div>
 
             </div>
@@ -365,9 +335,7 @@
 
                     <p class="price">₹180</p>
 
-                    <button class="btn-add">
-                        ADD +
-                    </button>
+                    <button onclick="addToCart(8)">ADD +</button>
 
                 </div>
 
@@ -407,10 +375,7 @@
 
                     <p>₹250</p>
 
-                    <button class="btn-add-sm">
-                        ADD +
-                    </button>
-
+                   <button onclick="addToCart(9)">ADD +</button>
                 </div>
 
 
@@ -425,9 +390,7 @@
 
                     <p>₹250</p>
 
-                    <button class="btn-add-sm">
-                        ADD +
-                    </button>
+                    <button onclick="addToCart(10)">ADD +</button>
 
                 </div>
 
@@ -443,9 +406,7 @@
 
                     <p>₹150</p>
 
-                    <button class="btn-add-sm">
-                        ADD +
-                    </button>
+                    <button onclick="addToCart(11)">ADD +</button>
 
                 </div>
 
@@ -461,9 +422,7 @@
 
                     <p>₹180</p>
 
-                    <button class="btn-add-sm">
-                        ADD +
-                    </button>
+                    <button onclick="addToCart(12)">ADD +</button>
 
                 </div>
 
@@ -479,9 +438,7 @@
 
                     <p>₹250</p>
 
-                    <button class="btn-add-sm">
-                        ADD +
-                    </button>
+                    <button onclick="addToCart(13)">ADD +</button>
 
                 </div>
 
@@ -518,11 +475,8 @@
 
                 </h2>
 
-                <a href="#" class="btn-pill-sage">
-                    VIEW FLAVOR MENU
-                </a>
 
-                <a href="#" class="btn-pill-sage">
+                <a href="consultation.html" class="btn-pill-sage">
                     BOOK A CONSULTATION
                 </a>
 
@@ -766,9 +720,12 @@
   Message:<br><textarea ></textarea><br><br>
             <button type="submit"class="submit-btn">submit</button>
         </form>
-<script src="script.js"></script>
+
   </div>
 
 </section>
+<script src="products.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
  </body>
 </html>

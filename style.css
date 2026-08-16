@@ -235,7 +235,7 @@ body{
 }
 
 
-.btn-add{
+.product-info button{
     background:#7d8c76;
     color:white;
     border:none;
@@ -246,7 +246,7 @@ body{
     cursor:pointer;
 }
 
-.btn-add:hover{
+.product-info button:hover{
     background:#697763;
 }
 
@@ -301,7 +301,7 @@ body{
 }
 
 
-.btn-add-sm{
+.treat-card button{
     background:#7d8c76;
     color:white;
     border:none;
@@ -312,7 +312,7 @@ body{
     cursor:pointer;
 }
 
-.btn-add-sm:hover{
+.treat-card button:hover{
     background:#697763;
 }
 
@@ -447,12 +447,38 @@ body{
     font-size:15px;
     font-weight:600;
 }
-.box-top-banner{   
-    background:#7d8c76;
-    color:white;
-    text-align:center;
-    padding:10px;
+
+/* Fields on the signup/login/consultation forms */
+.field{
+    margin-bottom:15px;
+}
+
+.field label{
     font-size:13px;
     font-weight:600;
-    letter-spacing:1px;
+    display:block;
+    margin-bottom:4px;
+}
+
+.error{
+    color:#a65b5b;
+    font-size:12px;
+}
+
+.status-message{
+    font-size:14px;
+    font-weight:600;
+}
+
+.status-message.ok{
+    color:#4a7a4a;
+}
+
+.status-message.error-text{
+    color:#a65b5b;
+}
+
+.form-footer{
+    font-size:13px;
+    margin-top:10px;
 }
