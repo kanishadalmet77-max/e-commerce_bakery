@@ -3,136 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Shopping Cart</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Plus+Jakarta+Sans:wght@500;600&display=swap" rel="stylesheet">
+  <title>Your Cart - Delicious Cakes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Plus Jakarta Sans',sans-serif; background:#fffdf9; color:#2c2520; line-height:1.6; }
-    .main-header { display:flex; justify-content:space-between; align-items:center; padding:20px 40px; background:white; }
-    .nav-links { display:flex; gap:30px; }
-    .nav-links a { text-decoration:none; color:#2c2520; font-size:13px; font-weight:600; }
-    .shop-layout-container { padding:40px; }
-    .inner-showcase-box { background:#fcf8f2; border:1px solid #eae3d8; border-radius:12px; padding:30px; }
-    .cart-item { display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #eae3d8; }
-    .btn-pill-sage, .submit-btn { background:#7d8c76; color:white; border:none; text-decoration:none; padding:10px 20px; border-radius:12px; font-size:13px; font-weight:600; cursor:pointer; display:inline-block; }
-    .qty-btn { background:#eae3d8; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <div class="top-banner">
+    OPEN TODAY: 8AM - 9PM • Main St, Bhayandar
+  </div>
+
   <header class="main-header">
-    <h2 style="font-family:'Playfair Display';">Bakery</h2>
+    <div class="logo-area">
+      <div class="logo-circle">
+        <img src="https://i.postimg.cc/d0Gcq2Gg/cropped-circle-image.png" alt="Bakery Logo">
+      </div>
+    </div>
+
     <nav class="nav-links">
-      <a href="index.html">HOME</a>
-      <a href="consultation.html">CONSULTATION</a>
-      <a href="cart.html">CART (<span id="cartCount">0</span>)</a>
+      <a href="index.html#shop-all">SHOP ALL</a>
+      <a href="index.html#daily-treats">DAILY TREATS</a>
+      <a href="index.html#weddings">WEDDINGS</a>
+      <a href="index.html#about">ABOUT</a>
+      <a href="index.html#contact us">CONTACT US</a>
     </nav>
+
+    <div class="header-actions">
+      <div class="icon-badge-container">
+        <a href="cart.html"> <i class="fa-solid fa-shopping-bag action-icon"></i> <span id="cartCount">0</span></a>
+      </div>
+      <div class="profile-menu-container">
+        <a href="signup.html"><i class="fa-regular fa-user action-icon"></i></a>
+      </div>
+    </div>
   </header>
 
   <section class="shop-layout-container">
     <div class="inner-showcase-box">
-      <h2>Shopping Cart</h2><br>
-      <div id="cartItems"></div>
-      <br>
-      <div id="cartTotal" style="font-weight:600; font-size:18px;"></div><br>
-      <a href="checkout.html" class="btn-pill-sage">Proceed to Checkout</a>
-      <button class="submit-btn" style="background:#a65b5b;" onclick="clearCart()">Clear Cart</button>
+      <div class="box-top-banner">YOUR CART</div>
+      <div class="product-info">
+        <div id="cartItems"></div>
+        <div id="cartTotal" style="font-weight:600; font-size:18px; margin-top:20px;"></div>
+        <br>
+        <a href="checkout.html" class="btn-pill-sage">Proceed to Checkout</a>
+        
+      </div>
     </div>
   </section>
 
-  <script>
-    // products.js logic
-    const PRODUCTS = [
-      { id: 1, name: "Fresh Cream Cake", price: 750 },
-      { id: 2, name: "Mawa", price: 250 },
-      { id: 3, name: "Confetti Sprinkle Cake", price: 800 },
-      { id: 4, name: "Pistachio Semolina Cake", price: 200 },
-      { id: 5, name: "Gulab Jamun", price: 250 },
-      { id: 6, name: "Cupcakes", price: 250 },
-      { id: 7, name: "Croissants", price: 150 },
-      { id: 8, name: "Muffins", price: 180 },
-      { id: 9, name: "Gulab Jamun", price: 250 },
-      { id: 10, name: "Cupcakes", price: 250 },
-      { id: 11, name: "Croissants", price: 150 },
-      { id: 12, name: "Muffins", price: 180 },
-      { id: 13, name: "Mawa", price: 250 }
-    ];
-    function getProductById(id) { return PRODUCTS.find(p => p.id === id); }
-
-    // cart.js logic
-    function addToCart(productId) {
-      const cart = getCart();
-      const existing = cart.find(item => item.productId === productId);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({ productId, quantity: 1 });
-      }
-      saveCart(cart);
-      alert("Added to cart!");
-    }
-    function getCart() { const stored = localStorage.getItem("cart"); return stored ? JSON.parse(stored) : []; }
-    function saveCart(cart) { localStorage.setItem("cart", JSON.stringify(cart)); updateCartCount(); renderCart(); }
-    function updateQuantity(productId, newQuantity) {
-      let cart = getCart();
-      if (newQuantity <= 0) {
-        cart = cart.filter(item => item.productId !== productId);
-      } else {
-        const item = cart.find(item => item.productId === productId);
-        if (item) item.quantity = newQuantity;
-      }
-      saveCart(cart);
-    }
-    function removeFromCart(productId) { updateQuantity(productId, 0); }
-    function getCartTotal() {
-      const cart = getCart();
-      return cart.reduce((total, item) => {
-        const product = getProductById(item.productId);
-        return total + (product ? product.price * item.quantity : 0);
-      }, 0);
-    }
-    function updateCartCount() {
-      const badge = document.getElementById("cartCount");
-      if (!badge) return;
-      const cart = getCart();
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      badge.textContent = totalItems;
-    }
-    function clearCart() { localStorage.removeItem("cart"); updateCartCount(); renderCart(); }
-
-    function renderCart() {
-      const container = document.getElementById("cartItems");
-      if (!container) return;
-      const cart = getCart();
-      if (cart.length === 0) {
-        container.innerHTML = "<p>Your cart is empty.</p>";
-        document.getElementById("cartTotal").textContent = "Total: ₹0";
-        return;
-      }
-      container.innerHTML = cart.map(item => {
-        const product = getProductById(item.productId);
-        if (!product) return '';
-        return `
-          <div class="cart-item">
-            <div>
-              <strong>${product.name}</strong> - ₹${product.price}
-            </div>
-            <div>
-              <button class="qty-btn" onclick="updateQuantity(${item.productId}, ${item.quantity - 1})">-</button>
-              <span style="margin:0 8px;">${item.quantity}</span>
-              <button class="qty-btn" onclick="updateQuantity(${item.productId}, ${item.quantity + 1})">+</button>
-              <button class="qty-btn" style="background:#f4c7c7; margin-left:10px;" onclick="removeFromCart(${item.productId})">Remove</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-      document.getElementById("cartTotal").textContent = `Total: ₹${getCartTotal()}`;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      updateCartCount();
-      renderCart();
-    });
-  </script>
+<script src="products.js"></script>
+<script src="auth.js"></script>
+<script src="cart.js"></script>
+<script>
+  renderCart();
+</script>
 </body>
 </html>

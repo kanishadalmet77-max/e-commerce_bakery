@@ -482,3 +482,38 @@ body{
     font-size:13px;
     margin-top:10px;
 }
+
+/* Cart page rows */
+.cart-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eae3d8;
+}
+
+.cart-row input[type="number"]{
+    width:50px;
+    padding:4px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    margin:0 8px;
+}
+
+.cart-row button{
+    background:#a65b5b;
+    color:white;
+    border:none;
+    padding:6px 12px;
+    border-radius:12px;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+/* Checkout page line items */
+#checkoutItems p{
+    font-size:14px;
+    padding:6px 0;
+    border-bottom:1px solid #eae3d8;
+}
