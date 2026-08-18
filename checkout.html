@@ -14,7 +14,7 @@
 <body>
 
   <div class="top-banner">
-    OPEN TODAY: 8AM - 9PM • Main St, Bhayandar
+    OPEN TODAY: 8AM - 9PM • Main St, Bhayandarś
   </div>
 
   <header class="main-header">
@@ -36,7 +36,7 @@
       <div class="icon-badge-container">
         <a href="cart.html"> <i class="fa-solid fa-shopping-bag action-icon"></i> <span id="cartCount">0</span></a>
       </div>
-      <div class="profile-menu-container">
+      <div class="profile-menu-container" id="profileMenu">
         <a href="signup.html"><i class="fa-regular fa-user action-icon"></i></a>
       </div>
     </div>
@@ -46,9 +46,27 @@
     <div class="inner-showcase-box">
       <div class="box-top-banner">CHECKOUT</div>
       <div class="product-info">
+
         <div id="checkoutItems"></div>
         <div id="checkoutTotal" style="font-weight:600; font-size:18px; margin:20px 0;"></div>
-        <button class="submit-btn" onclick="simulatePayment()">Pay Now</button>
+
+        <div class="field">
+          <label>Choose Payment Method</label><br>
+          <label style="font-weight:normal; display:inline-block; margin-right:20px; margin-top:8px;">
+            <input type="radio" name="paymentMethod" value="cod" checked onchange="onPaymentMethodChange()"> Pay on Delivery
+          </label>
+          <label style="font-weight:normal; display:inline-block;">
+            <input type="radio" name="paymentMethod" value="upi" onchange="onPaymentMethodChange()"> UPI
+          </label>
+        </div>
+
+        <div id="upiDetails" style="display:none; margin:15px 0; padding:15px; background:white; border:1px solid #eae3d8; border-radius:8px; max-width:260px;">
+          <p style="font-size:13px; margin-bottom:10px;">Scan this QR code, or pay directly to the UPI ID below:</p>
+          <img id="upiQr" src="" alt="UPI QR Code" style="width:180px; height:180px; display:block; margin-bottom:10px;">
+          <p style="font-size:13px;">UPI ID: <strong id="upiIdText"></strong></p>
+        </div>
+
+        <button class="submit-btn" onclick="placeOrder()">Place Order</button>
       </div>
     </div>
   </section>
@@ -57,5 +75,20 @@
 <script src="auth.js"></script>
 <script src="cart.js"></script>
 <script src="checkout.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", updateProfileMenu);
+  function updateProfileMenu() {
+    const menu = document.getElementById("profileMenu");
+    if (!menu) return;
+    const user = getCurrentUser();
+    if (user) {
+      menu.innerHTML =
+        '<span style="font-size:12px; margin-right:8px;">Hi, ' + user.fullName + '</span>' +
+        '<a href="#" onclick="logoutUser(); return false;" style="font-size:12px; text-decoration:underline;">Sign Out</a>';
+    } else {
+      menu.innerHTML = '<a href="signup.html"><i class="fa-regular fa-user action-icon"></i></a>';
+    }
+  }
+</script>
 </body>
 </html>

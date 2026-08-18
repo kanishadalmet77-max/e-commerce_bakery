@@ -30,13 +30,12 @@
 
 </head>
 <body>
-    
 
    <!-- Top banner -->
 
   <div class="top-banner">
 
-    OPEN TODAY: 8AM - 9PM • Main St, Bhayandar
+    OPEN TODAY: 8AM - 9PM • Main St, Bhayandarś
 
   </div>
     <!-- Header -->
@@ -76,7 +75,7 @@
 
       </div>
 
-        <div class="profile-menu-container">
+        <div class="profile-menu-container" id="profileMenu">
            <a href="signup.html">
        <i class="fa-regular  fa-user action-icon"></i>
 
@@ -710,16 +709,15 @@
         <div class="box-top-banner">
             CONTACT US
         </div>
- <form>
+ <form id="contactForm">
             <h2>Get in touch</h2><br><br>
-            Name:<input type="text"
-            name="Kanisha"><br><br>
-            Email:<input type="email"
-            name="kanisha787@gmail.com"><br><br>
-            <label>Message:</label><br>
-      <textarea id="message" rows="4"></textarea><br><br>
-          <button type="submit"class="submit-btn">submit</button>
+            Name:<input type="text" id="contactName" required><br><br>
+            Email:<input type="email" id="contactEmail" required><br><br>
+           
+  Message:<br><textarea id="contactMessage" rows="4"></textarea><br><br>
+            <button type="submit" class="submit-btn">submit</button>
         </form>
+        <p id="contactResult" class="status-message"></p>
 
   </div>
 
@@ -727,5 +725,39 @@
 <script src="products.js"></script>
 <script src="auth.js"></script>
 <script src="cart.js"></script>
+<script>
+  // ---- Contact Us form: saves to localStorage, viewable in admin.html ----
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const message = document.getElementById("contactMessage").value.trim();
+
+    const stored = localStorage.getItem("contactMessages");
+    const messages = stored ? JSON.parse(stored) : [];
+    messages.push({ name: name, email: email, message: message, timestamp: new Date().toISOString() });
+    localStorage.setItem("contactMessages", JSON.stringify(messages));
+
+    document.getElementById("contactResult").textContent = "Thanks for reaching out! We'll get back to you soon.";
+    document.getElementById("contactResult").className = "status-message ok";
+    document.getElementById("contactForm").reset();
+  });
+
+  // ---- Sign-out aware profile menu ----
+  // Shows "Hi, Name / Sign Out" if someone is logged in, otherwise the normal sign-up icon.
+  function updateProfileMenu() {
+    const menu = document.getElementById("profileMenu");
+    if (!menu) return;
+    const user = getCurrentUser();
+    if (user) {
+      menu.innerHTML =
+        '<span style="font-size:12px; margin-right:8px;">Hi, ' + user.fullName + '</span>' +
+        '<a href="#" onclick="logoutUser(); return false;" style="font-size:12px; text-decoration:underline;">Sign Out</a>';
+    } else {
+      menu.innerHTML = '<a href="signup.html"><i class="fa-regular fa-user action-icon"></i></a>';
+    }
+  }
+  document.addEventListener("DOMContentLoaded", updateProfileMenu);
+</script>
  </body>
 </html>
